@@ -1,14 +1,14 @@
 {
-  "name": "react-scripts",
+  "name": "rendact-react-scripts",
   "version": "1.0.14",
-  "description": "Configuration and scripts for Create React App.",
-  "repository": "facebookincubator/create-react-app",
+  "description": "custom Configuration and scripts for Create React App for rendact.",
+  "repository": "rendact/create-react-app",
   "license": "MIT",
   "engines": {
     "node": ">=6"
   },
   "bugs": {
-    "url": "https://github.com/facebookincubator/create-react-app/issues"
+    "url": "https://github.com/rendact/create-react-app/issues"
   },
   "files": [
     "bin",
@@ -55,6 +55,7 @@
     "webpack": "3.5.1",
     "webpack-dev-server": "2.8.2",
     "webpack-manifest-plugin": "1.2.1",
+    "compression-webpack-plugin": "1.0.1",
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {

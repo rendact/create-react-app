@@ -20,6 +20,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const CompressionPlugin = require("compression-webpack-plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -151,7 +152,7 @@ module.exports = {
           },
         ],
         include: paths.appSrc,
-      },
+        },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -261,6 +262,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new CompressionPlugin({
+      algorithm: "gzip",
+      test: /\.jsx?$/,
+    }),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -306,6 +311,10 @@ module.exports = {
         ascii_only: true,
       },
       sourceMap: shouldUseSourceMap,
+      parallel: {
+        cache: true,
+        workers: 4
+      }
     }),
     // Note: this won't work without ExtractTextPlugin.extract(..) in `loaders`.
     new ExtractTextPlugin({
@@ -346,6 +355,13 @@ module.exports = {
       navigateFallbackWhitelist: [/^(?!\/__).*/],
       // Don't precache sourcemaps (they're large) and build asset manifest:
       staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      filename: "static/js/vendor.[chunkhash].js",
+      minChunks (module) {
+        return module.context && module.context.indexOf('node_modules') >= 0;
+      }
     }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
